@@ -18,12 +18,11 @@ from django import views
 from django.contrib import admin
 from django.urls import path
 
-from tinyapp.views import UserRegistrationView, UrlListView
+from tinyapp.views import UserRegistrationView, UrlListView, UrlCreateView
 
 urlpatterns = [
-
     path('admin/', admin.site.urls),
     path('register/', UserRegistrationView.as_view(), name='register'),
-    path('urls/', UrlListView.as_view(), name='urls')
-
+    path('urls/', UrlListView.as_view(), name='urls'),
+    path('urls/new/', UrlCreateView.as_view(), name='urls')
 ]
