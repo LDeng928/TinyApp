@@ -5,8 +5,9 @@
 {% block content %}
   <h1>Create TinyURL</h1>
 
-  <form method="post">
-    {% csrf_token %} {{ form.as_p }}
+  <form method="POST" action="">
+    {% csrf_token %} 
+    {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
