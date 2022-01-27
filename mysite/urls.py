@@ -18,13 +18,14 @@ from django import views
 from django.contrib import admin
 from django.urls import path
 
-from tinyapp.views import UserRegistrationView, UrlListView, UrlCreateView, CreateUrl, UrlDetailView, url_redirect
+from tinyapp.views import UserRegistrationView, UrlListView, UrlCreateView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('urls/', UrlListView.as_view(), name='urls'),
     path('urls/new/', CreateUrl, name="create_url"),
-    path('url/<int:pk>', UrlDetailView.as_view(), name='url-detail'),
-    path('u/<str:shortUrl>', url_redirect, name='url-redirect')
+    path('u/<str:shortUrl>', url_redirect, name='url-redirect'),
+    path('urls/delete/<int:pk>', UrlDeleteView.as_view(), name='url-delete'),
+    path('urls/edit/<int:pk>', UrlEditView.as_view(), name='url-edit')
 ]

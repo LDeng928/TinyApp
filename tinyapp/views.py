@@ -1,4 +1,4 @@
-from ast import alias
+from ast import Delete, alias
 from dataclasses import fields
 from pyexpat import model
 from statistics import mode
@@ -6,7 +6,7 @@ from typing import List
 from django.forms import ModelForm
 from django.shortcuts import render, redirect
 from django.template import context
-from django.views.generic import CreateView, ListView, TemplateView, DetailView
+from django.views.generic import CreateView, ListView, TemplateView, DetailView, DeleteView, UpdateView
 from django.views.generic.edit import FormView
 from .models import User, Url
 from .forms import UserRegisterForm, UrlCreateForm
@@ -77,12 +77,26 @@ def CreateUrl(request):
 # URL detail view
 
 
-class UrlDetailView(DetailView):
-    model = Url
-    template_name = "url_detail.html"
+# class UrlDetailView(DetailView):
+#     model = Url
+#     template_name = "url_detail.html"
 
 
 def url_redirect(request, shortUrl):
     obj = Url.objects.get(shortUrl=shortUrl)
     URL = obj.longUrl
     return redirect(URL)
+
+
+# URL Delete view
+class UrlDeleteView(DeleteView):
+    model = Url
+    success_url = "/urls"
+
+# URL Update view
+
+
+class UrlEditView(UpdateView):
+    model = Url
+    fields = ['longUrl']
+    template_name = 'url_detail.html'

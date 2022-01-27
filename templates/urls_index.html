@@ -9,17 +9,31 @@
   <div class="table-responsive">
     <table class="table">
       <thead>
-        <tr>
+        <tr>          
           <th scope="col">Short URL</th>
           <th scope="col">Long URL</th>
+          <th scope="col">Date Created</th>
+          <th scope="col">Delete</th>
+          <th scope="col">Update</th>
         </tr>
       </thead>
       {% if urls %}
       <tbody>
         {% for url in urls %}
         <tr>
-          <td>{{ url.shortUrl }}</td>
+          <td><a href="/u/{{ url.shortUrl }}" target="_blank">{{ url.shortUrl }}</a></td>
           <td>{{ url.longUrl }}</td>
+          <td>{{ url.dateCreated }}</td>
+          <td>
+            <form action="{% url 'url-delete' url.id %}" method="POST">{% csrf_token %}
+              <button class="btn btn-danger" type="submit">DELETE</button>
+            </form>
+          </td>
+          <td>
+            <form action="{% url 'url-edit' url.id %}" method="POST">{% csrf_token %}
+              <button class="btn btn-primary" type="submit">Edit</button>
+            </form>
+          </td>
         </tr>
         {% endfor %}
       </tbody>

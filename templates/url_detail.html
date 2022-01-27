@@ -5,12 +5,21 @@
 {% block content %}
 
 <div class="card text-center">
-  <div class="card-header"></div>
+  <div class="card-header">
+    Edit your URL
+  </div>
   <div class="card-body">
+    
     <h5 class="card-title">TinyURL for: {{ url.longUrl }}</h5>
     <p class="card-text">Short URL: <a href="">{{ url.shortUrl }}</a></p>
   </div>
-  <div class="card-footer text-muted"></div>
+  <div class="card-footer text-muted">
+   
+    <form method="POST">{% csrf_token %}       
+      {{ form.as_p }}
+      <input type="submit" value="Update" class="btn btn-primary">
+    </form>
+  </div>
 </div>
 
 
