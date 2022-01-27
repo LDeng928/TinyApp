@@ -100,3 +100,6 @@ class UrlEditView(UpdateView):
     model = Url
     fields = ['longUrl']
     template_name = 'url_detail.html'
+
+    def get_success_url(self):
+        return '/urls'
