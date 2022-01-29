@@ -17,17 +17,21 @@ from unicodedata import name
 from django import views
 from django.contrib import admin
 from django.urls import path
+from django.contrib.auth.decorators import login_required
 
-from tinyapp.views import UserRegistrationView, UrlListView, UrlCreateView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView, loginPage, logoutPage
+from tinyapp.views import UserRegistrationView, UrlListView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView, loginPage, logoutPage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', UserRegistrationView.as_view(), name='register'),
-    path('urls/', UrlListView, name='urls'),
+    path('urls/', login_required(UrlListView.as_view(),
+         login_url='/login'), name='urls'),
     path('urls/new/', CreateUrl, name="create_url"),
     path('u/<str:shortUrl>', url_redirect, name='url-redirect'),
-    path('urls/delete/<int:pk>', UrlDeleteView.as_view(), name='url-delete'),
-    path('urls/edit/<int:pk>', UrlEditView.as_view(), name='url-edit'),
+    path('urls/delete/<int:pk>', login_required(UrlDeleteView.as_view(),
+         login_url='/login'), name='url-delete'),
+    path('urls/edit/<int:pk>', login_required(UrlEditView.as_view(),
+         login_url='/login'), name='url-edit'),
     path('login/', loginPage, name='login'),
     path('logout/', logoutPage, name='logout')
 ]

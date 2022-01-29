@@ -16,7 +16,7 @@ class UserRegisterForm(UserCreationForm):
 class UrlCreateForm(forms.ModelForm):
     class Meta:
         model = Url
-        fields = ["longUrl", "user_id"]
+        fields = ["longUrl"]
         widgets = {
             'longUrl': forms.TextInput(attrs={'placeholder': 'http://'})
         }
