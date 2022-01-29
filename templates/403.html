@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %} UserList {% endblock %}
+
+{% block content %}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+  <p>You do not have permission to view this page.</p>
+
+  <p>Please return to your <a href="{% url 'urls' %}">TinyUrls</a></p>
+  
+</div>
+
+{% endblock %}

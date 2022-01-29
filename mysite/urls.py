@@ -39,4 +39,6 @@ urlpatterns = [
          login_url='login'), name='url-edit'),
     path('login/', views.loginPage,  name='login'),
     path('logout/', views.logoutPage, name='logout'),
+    path('userlist/', login_required(views.UserListView.as_view(),
+         login_url='login'), name='user-list')
 ]
