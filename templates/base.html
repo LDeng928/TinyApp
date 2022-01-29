@@ -39,7 +39,12 @@
                 </li>     
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-                </li>     
+                </li>
+                {% if perms.view_user %}   
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'user-list' %}">User List</a>
+                </li>
+                {% endif %}
               </ul>
             </div>
           </div>
