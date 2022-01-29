@@ -3,6 +3,8 @@ from dataclasses import fields
 from pyexpat import model
 from statistics import mode
 from typing import List
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.forms import ModelForm
 from django.shortcuts import render, redirect
 from django.template import context
@@ -27,6 +29,11 @@ class UrlListView(ListView):
     context_object_name = 'urls'
     template_name = "urls_index.html"
     success_url = "/urls"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(self.request.session.get('myCookie'))
+        return context
 
 # Create TinyURL form
 
@@ -103,3 +110,22 @@ class UrlEditView(UpdateView):
 
     def get_success_url(self):
         return '/urls'
+
+# User Login view
+
+
+def loginPage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+        request.session['myCookie'] = 'C is for cookie'
+        if user is not None:
+            login(request, user)
+            return redirect('urls')
+        else:
+            messages.info(request, 'Username or password is incorrect')
+
+    context = {}
+    return render(request, 'login.html', context)
