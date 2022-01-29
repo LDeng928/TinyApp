@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.forms import ModelForm
 from django.shortcuts import render, redirect
 from django.template import context
-from django.views.generic import ListView, DeleteView, UpdateView
+from django.views.generic import ListView, DeleteView, UpdateView, DetailView
 from django.contrib.auth.decorators import login_required
 from ..models import User, Url
 from ..forms import UrlCreateForm
@@ -55,9 +55,14 @@ def url_redirect(request, shortUrl):
     URL = obj.longUrl
     return redirect(URL)
 
+
+# URL detail view - (not in use)
+class UrlDetailView(DetailView):
+    model = Url
+    template_name = "url_detail.html"
+
+
 # URL Delete view
-
-
 class UrlDeleteView(DeleteView):
     model = Url
     success_url = "/urls"
