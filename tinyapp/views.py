@@ -120,8 +120,9 @@ def loginPage(request):
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
-        request.session['myCookie'] = 'C is for cookie'
+
         if user is not None:
+
             login(request, user)
             return redirect('urls')
         else:
@@ -129,3 +130,10 @@ def loginPage(request):
 
     context = {}
     return render(request, 'login.html', context)
+
+# User logout view
+
+
+def logoutPage(request):
+    logout(request)
+    return redirect('login')
