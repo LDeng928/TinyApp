@@ -23,7 +23,7 @@ from tinyapp.views import UserRegistrationView, UrlListView, UrlCreateView, Crea
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('register/', UserRegistrationView.as_view(), name='register'),
-    path('urls/', UrlListView.as_view(), name='urls'),
+    path('urls/', UrlListView, name='urls'),
     path('urls/new/', CreateUrl, name="create_url"),
     path('u/<str:shortUrl>', url_redirect, name='url-redirect'),
     path('urls/delete/<int:pk>', UrlDeleteView.as_view(), name='url-delete'),

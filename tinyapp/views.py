@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.template import context
 from django.views.generic import CreateView, ListView, TemplateView, DetailView, DeleteView, UpdateView
 from django.views.generic.edit import FormView
+from django.contrib.auth.decorators import login_required
 from .models import User, Url
 from .forms import UserRegisterForm, UrlCreateForm
 import string
@@ -24,6 +25,7 @@ class UserRegistrationView(CreateView):
     template_name = "register.html"
 
 
+@login_required(login_url='login')
 class UrlListView(ListView):
     model = Url
     context_object_name = 'urls'
@@ -63,6 +65,7 @@ def random_string():
     return ran_string.join(random.choices(string.ascii_letters+string.digits, k=string_size))
 
 
+@login_required(login_url='login')
 # Functional way to create form
 def CreateUrl(request):
     form = UrlCreateForm
@@ -88,7 +91,7 @@ def CreateUrl(request):
 #     model = Url
 #     template_name = "url_detail.html"
 
-
+@login_required(login_url='login')
 def url_redirect(request, shortUrl):
     obj = Url.objects.get(shortUrl=shortUrl)
     URL = obj.longUrl
@@ -115,18 +118,21 @@ class UrlEditView(UpdateView):
 
 
 def loginPage(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.user.is_authenticated:
+        return redirect('urls')
+    else:
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
 
-        user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
+            if user is not None:
 
-            login(request, user)
-            return redirect('urls')
-        else:
-            messages.info(request, 'Username or password is incorrect')
+                login(request, user)
+                return redirect('urls')
+            else:
+                messages.info(request, 'Username or password is incorrect')
 
     context = {}
     return render(request, 'login.html', context)
