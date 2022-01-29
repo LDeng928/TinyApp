@@ -33,6 +33,7 @@ urlpatterns = [
          login_url='login'), name='urls'),
     path('urls/new/', views.CreateUrl, name="create_url"),
     path('u/<str:shortUrl>', views.url_redirect, name='url-redirect'),
+    path('urls/<int:pk>', views.UrlDetailView.as_view(), name='url-detail'),
     path('urls/delete/<int:pk>', login_required(views.UrlDeleteView.as_view(),
          login_url='login'), name='url-delete'),
     path('urls/edit/<int:pk>', login_required(views.UrlEditView.as_view(),
