@@ -16,8 +16,9 @@ Including another URLconf
 from unicodedata import name
 from django import views
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView, PasswordChangeView
 
 from tinyapp.views import UserRegistrationView, UrlListView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView, loginPage, logoutPage
 
@@ -32,6 +33,8 @@ urlpatterns = [
          login_url='/login'), name='url-delete'),
     path('urls/edit/<int:pk>', login_required(UrlEditView.as_view(),
          login_url='/login'), name='url-edit'),
-    path('login/', loginPage, name='login'),
-    path('logout/', logoutPage, name='logout')
+    path('accounts/login/', loginPage,  name='login'),
+    path('accounts/logout/', logoutPage, name='logout'),
+    path('change-password/', PasswordChangeView.as_view()),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
