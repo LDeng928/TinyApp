@@ -16,6 +16,7 @@ Including another URLconf
 from unicodedata import name
 from django import views
 from django.contrib import admin
+from django.shortcuts import redirect
 from django.urls import include, path
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView, PasswordChangeView
@@ -23,6 +24,7 @@ from django.contrib.auth.views import LogoutView, PasswordChangeView
 from tinyapp.views import UserRegistrationView, UrlListView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView, loginPage, logoutPage
 
 urlpatterns = [
+    path('', lambda req: redirect('login')),
     path('admin/', admin.site.urls),
     path('register/', UserRegistrationView.as_view(), name='register'),
     path('urls/', login_required(UrlListView.as_view(),
