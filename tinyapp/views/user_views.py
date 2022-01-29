@@ -1,9 +1,14 @@
+from pyexpat import model
+from typing import List
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.forms import ModelForm
 from django.shortcuts import render, redirect
 from django.template import context
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+from tinyapp.models import User
 from ..forms import UserRegisterForm
 
 
@@ -43,3 +48,18 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('login')
+
+
+# Admin User List View
+class UserListView(PermissionRequiredMixin, ListView):
+    permission_required = 'tinyapp.view_user'
+    model = User
+    context_object_name = 'users'
+    template_name = "admin.html"
+    success_url = "/userlist"
+
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     if(user.has_perms('tinyapp.view_user')):
+    #         return User.objects.all()
+    #     return User.objects.none()
