@@ -21,22 +21,22 @@ from django.urls import include, path
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView, PasswordChangeView
 
-from tinyapp.views import UserRegistrationView, UrlListView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView, loginPage, logoutPage
+# from tinyapp.views import UserRegistrationView, UrlListView, CreateUrl, url_redirect, UrlDeleteView, UrlEditView, loginPage, logoutPage
+
+from tinyapp import views
 
 urlpatterns = [
     path('', lambda req: redirect('login')),
     path('admin/', admin.site.urls),
-    path('register/', UserRegistrationView.as_view(), name='register'),
-    path('urls/', login_required(UrlListView.as_view(),
-         login_url='/login'), name='urls'),
-    path('urls/new/', CreateUrl, name="create_url"),
-    path('u/<str:shortUrl>', url_redirect, name='url-redirect'),
-    path('urls/delete/<int:pk>', login_required(UrlDeleteView.as_view(),
-         login_url='/login'), name='url-delete'),
-    path('urls/edit/<int:pk>', login_required(UrlEditView.as_view(),
-         login_url='/login'), name='url-edit'),
-    path('accounts/login/', loginPage,  name='login'),
-    path('accounts/logout/', logoutPage, name='logout'),
-    path('change-password/', PasswordChangeView.as_view()),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', views.UserRegistrationView.as_view(), name='register'),
+    path('urls/', login_required(views.UrlListView.as_view(),
+         login_url='login'), name='urls'),
+    path('urls/new/', views.CreateUrl, name="create_url"),
+    path('u/<str:shortUrl>', views.url_redirect, name='url-redirect'),
+    path('urls/delete/<int:pk>', login_required(views.UrlDeleteView.as_view(),
+         login_url='login'), name='url-delete'),
+    path('urls/edit/<int:pk>', login_required(views.UrlEditView.as_view(),
+         login_url='login'), name='url-edit'),
+    path('login/', views.loginPage,  name='login'),
+    path('logout/', views.logoutPage, name='logout'),
 ]
